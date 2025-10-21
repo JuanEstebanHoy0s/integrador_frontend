@@ -1,6 +1,7 @@
 package com.example.FrankySabado.controladores;
 
 
+import com.example.FrankySabado.ayudas.EstadosAsistencia;
 import com.example.FrankySabado.modelos.Asistencia;
 import com.example.FrankySabado.servicios.AsistenciaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class AsistenciaControlador {
     AsistenciaServicio servicio;
 
     //1. Activar API para buscar asistencia por estado
-    @GetMapping("/asistenciaEstado")
-    public ResponseEntity<?> activarBuscarEstado(@PathVariable String estado) {
+    @GetMapping("/asistenciaEstado/{estado}")
+    public ResponseEntity<?> activarBuscarEstado(@PathVariable EstadosAsistencia estado) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -30,31 +31,26 @@ public class AsistenciaControlador {
         }
     }
 
+
     //2. Activar API para buscar buscar por fecha
     @GetMapping("/asistenciaFecha")
-    public ResponseEntity<?> activarBuscarPorFecha(@RequestBody LocalDate fecha) {
+    public ResponseEntity<?> buscarPorFecha(@RequestParam LocalDate fecha) {
         try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(this.servicio.buscarPorFecha(fecha));
-        } catch (Exception error) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(error.getMessage());
+            return ResponseEntity.ok(this.servicio.buscarPorFecha(fecha));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+
     //3. Activar API buscar por grupo
     @GetMapping("/asistenciaGrupo")
-    public ResponseEntity<?> activarBuscarPorGrupo(@PathVariable Integer idGrupo) {
+    public ResponseEntity<?> buscarPorGrupo(@RequestParam Integer idGrupo) {
         try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(this.servicio.buscarPorGrupo(idGrupo));
-        } catch (Exception error) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(error.getMessage());
+            return ResponseEntity.ok(this.servicio.buscarPorGrupo(idGrupo));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 }
