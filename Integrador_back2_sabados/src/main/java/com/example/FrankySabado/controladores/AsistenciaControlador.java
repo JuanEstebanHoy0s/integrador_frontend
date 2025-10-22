@@ -3,6 +3,7 @@ package com.example.FrankySabado.controladores;
 
 import com.example.FrankySabado.ayudas.EstadosAsistencia;
 import com.example.FrankySabado.modelos.Asistencia;
+import com.example.FrankySabado.modelos.Estudiante;
 import com.example.FrankySabado.servicios.AsistenciaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class AsistenciaControlador {
     AsistenciaServicio servicio;
 
     //1. Activar API para buscar asistencia por estado
-    @GetMapping("/asistenciaEstado/{estado}")
+    @GetMapping("/{estado}")
     public ResponseEntity<?> activarBuscarEstado(@PathVariable EstadosAsistencia estado) {
         try {
             return ResponseEntity
@@ -52,5 +53,19 @@ public class AsistenciaControlador {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping
+    public ResponseEntity<?>activarGuardadoAsistencia(@RequestBody Asistencia asistencia){
+        try{
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(this.servicio.guardarAsistencia(asistencia));
+        }catch(Exception error){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(error.getMessage());
+        }
+    }
+
 
 }
