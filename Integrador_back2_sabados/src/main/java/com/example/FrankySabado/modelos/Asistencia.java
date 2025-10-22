@@ -20,7 +20,8 @@ public class Asistencia {
     @Column(name = "estado", nullable = false, unique = false)
     @Enumerated(EnumType.STRING)
     private EstadosAsistencia estado;
-
+    @Column(name = "idGrupo", nullable = false)
+    private Integer idGrupo;
     @ManyToOne
     @JoinColumn(name = "fk_estudiante", referencedColumnName = "id")
     @JsonBackReference(value = "relacionestudianteasistencia")
@@ -29,11 +30,13 @@ public class Asistencia {
     public Asistencia() {
     }
 
-    public Asistencia(Integer id, LocalDate fecha, String observacion, EstadosAsistencia estado) {
+    public Asistencia(Integer id, LocalDate fecha, String observacion, EstadosAsistencia estado, Integer idGrupo, Estudiante estudiante) {
         this.id = id;
         this.fecha = fecha;
         this.observacion = observacion;
         this.estado = estado;
+        this.idGrupo = idGrupo;
+        this.estudiante = estudiante;
     }
 
     public Integer getId() {
@@ -66,5 +69,21 @@ public class Asistencia {
 
     public void setEstado(EstadosAsistencia estado) {
         this.estado = estado;
+    }
+
+    public Integer getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(Integer idGrupo) {
+        this.idGrupo = idGrupo;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 }
