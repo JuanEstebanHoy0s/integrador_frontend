@@ -31,7 +31,7 @@ function App() {
       <div style={{ marginLeft: sidebarWidth, marginTop: topbarHeight, height: `calc(100vh - ${topbarHeight})`, overflowY: 'auto', padding: '3rem' }}>
         <Routes>         
         <Route path="/" element={<FormularioLogin/>} />        
-        <Route element={<ProteccionRouter cargoRequerido={rol}/>}>
+        <Route element={<ProteccionRouter cargoRequerido={["Docente", "Estudiante", "Empresario"]}/>}>
         <Route path="/estadistica" element={<Estadistica/>} />
         </Route>
         <Route path="/no-autorizado" element={<NoAutorizado />} />
