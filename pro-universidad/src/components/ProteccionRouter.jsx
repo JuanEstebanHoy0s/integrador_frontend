@@ -1,21 +1,23 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-export default function ProteccionRouter({ rol }) {
- 
+export default function ProteccionRouter({ cargoRequerido }) {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-  // Si no hay usuario, lo redirige al login
+  // Si no hay usuario, redirige al login
   if (!usuario) {
     return <Navigate to="/" replace />;
   }
 
-  // Si se requiere un cargo específico y no coincide
-  if (rol && usuario.rol !== rol) {
+  // Si cargoRequerido es un string (un solo rol)
+  if (typeof cargoRequerido === "string" && usuario.rol !== cargoRequerido) {
     return <Navigate to="/no-autorizado" replace />;
   }
 
-  // Si todo está bien, renderiza la ruta interna
-  return <Outlet/>;
-    
-  
+  // Si cargoRequerido es un array (varios roles permitidos)
+  if (Array.isArray(cargoRequerido) && !cargoRequerido.includes(usuario.rol)) {
+    return <Navigate to="/no-autorizado" replace />;
+  }
+
+  // Si pasa todas las validaciones, renderiza la ruta protegida
+  return <Outlet />;
 }
